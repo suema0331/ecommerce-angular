@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-/* 
+/*
  * ----------------------------
  * Common SCSS
  * ----------------------------
@@ -147,7 +147,7 @@ aside.menu-sidebar.d-none.d-lg-block.clr {
 	box-shadow: -2px 0 4px #0000003b;
 }
 
-/* 
+/*
  * ----------------------------
  * Header Desktop Section
  * ----------------------------
@@ -329,7 +329,7 @@ input.au-input.au-input-xl {
 	}
 }
 
-/* 
+/*
  * ----------------------------
  * Left Menu Bar
  * ----------------------------
@@ -403,7 +403,7 @@ input.au-input.au-input-xl {
 	}
 }
 
-/* 
+/*
  * ----------------------------
  * Header Mobile Section
  * ----------------------------
@@ -561,7 +561,7 @@ input.au-input.au-input-xl {
 	padding: 10% 15% !important;
 }
 
-/* 
+/*
  * ----------------------------
  * Products List
  * ----------------------------
@@ -609,7 +609,7 @@ input.au-input.au-input-xl {
 	}
 }
 
-/* 
+/*
  * ----------------------------
  * Shopping Cart Checkout
  * ----------------------------
@@ -741,7 +741,7 @@ select {
 	color: #828482;
 }
 
-/* 
+/*
  * ----------------------------
  * Shopping Cart Details
  * ----------------------------
@@ -785,7 +785,7 @@ table.table.table-bordered th {
 	margin-left: 5px;
 }
 
-/* 
+/*
  * ----------------------------
  * Product Details
  * ----------------------------
@@ -801,9 +801,13 @@ table.table.table-bordered th {
 	margin-top: 60px;
 }
 
+.detail-img{
+  width: 30%;
+}
+
 /**/
 
-/* 
+/*
  * ----------------------------
  * Buttons
  * ----------------------------
@@ -835,7 +839,7 @@ a.primary-btn {
 	font-weight: bold;
 }
 
-/* 
+/*
  * ----------------------------
  * Footer section
  * ----------------------------
@@ -863,7 +867,7 @@ footer {
 	}
 }
 
-/* 
+/*
  * ----------------------------
  * Media Queries
  * ----------------------------
