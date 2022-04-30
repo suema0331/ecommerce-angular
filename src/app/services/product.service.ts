@@ -16,6 +16,24 @@ export class ProductService {
 
   constructor(private httpClient: HttpClient) {}
 
+  getProductListPaginate(
+    thePage: number,
+    thePageSize: number,
+    categoryId: number
+  ): Observable<GetResponseProducts> {
+    let searchUrl = '';
+    if (!categoryId || categoryId === 0) {
+      searchUrl = this.baseUrl + `?page=${thePage}&size=${thePageSize}`;
+      // searchUrl = this.baseUrl;
+    } else {
+      searchUrl =
+        `${this.baseUrl}/search/findByCategoryId?id=${categoryId}` +
+        `&page=${thePage}&size=${thePageSize}`;
+    }
+    // map the json data from Spring Data Rest to Product[]
+    return this.httpClient.get<GetResponseProducts>(searchUrl);
+  }
+
   getProductList(categoryId: number): Observable<Product[]> {
     let searchUrl = '';
     if (!categoryId || categoryId === 0) {
@@ -30,6 +48,19 @@ export class ProductService {
   searchProducts(keyword: string): Observable<Product[]> {
     const searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${keyword}`;
     return this.getProducts(searchUrl);
+  }
+
+  searchProductsPaginate(
+    thePage: number,
+    thePageSize: number,
+    theKeyword: string
+  ): Observable<GetResponseProducts> {
+    // need to build URL based on keyword, page and size
+    const searchUrl =
+      `${this.baseUrl}/search/findByNameContaining?name=${theKeyword}` +
+      `&page=${thePage}&size=${thePageSize}`;
+
+    return this.httpClient.get<GetResponseProducts>(searchUrl);
   }
 
   getProduct(productId: number): Observable<Product> {
@@ -50,9 +81,15 @@ export class ProductService {
   }
 }
 
-interface GetResponseProducts {
+export interface GetResponseProducts {
   _embedded: {
     products: Product[];
+  };
+  page: {
+    size: number;
+    totalElements: number; // counts
+    totalPages: number;
+    number: number;
   };
 }
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
 import { Product } from 'src/app/common/product';
 import { ActivatedRoute } from '@angular/router';
+import { GetResponseProducts } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-product-list',
@@ -9,10 +10,18 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./product-list.component.scss'],
 })
 export class ProductListComponent implements OnInit {
-  products: Product[];
-  currentCategoryId: number;
-  currentCategoryName: string;
-  searchMode: boolean;
+  products: Product[] = [];
+  currentCategoryId: number = 0;
+  previousCategoryId: number = 0;
+  currentCategoryName: string = '';
+  searchMode: boolean = false;
+
+  // pagination
+  thePageNumber: number = 1;
+  thePageSize: number = 8;
+  theTotalElements: number = 0;
+
+  previousKeyword: string = '';
 
   constructor(
     private productService: ProductService,
@@ -39,10 +48,43 @@ export class ProductListComponent implements OnInit {
   handleSearchProducts(): void {
     const keyword = this.route.snapshot.paramMap.get('keyword')!;
 
-    this.productService.searchProducts(keyword).subscribe((data) => {
-      this.products = data;
-      this.currentCategoryName = `${keyword} に関連する商品が ${data.length} 件見つかりました`;
-    });
+    // if we have a different keyword than previous
+    // then set thePageNumber to 1
+
+    if (this.previousKeyword != keyword) {
+      this.thePageNumber = 1;
+    }
+
+    this.previousKeyword = keyword;
+
+    console.log(`keyword=${keyword}, thePageNumber=${this.thePageNumber}`);
+
+    // now search for the products using keyword
+    this.productService
+      .searchProductsPaginate(this.thePageNumber - 1, this.thePageSize, keyword)
+      .subscribe((data) => {
+        this.products = data._embedded.products;
+        this.thePageNumber = data.page.number + 1;
+        this.thePageSize = data.page.size;
+        this.theTotalElements = data.page.totalElements;
+        this.currentCategoryName = `${keyword} に関連する商品が ${data.page.totalElements} 件見つかりました`;
+        // next(data) {
+        //   // this.processResult();
+        //   this.products = data._embedded.products;
+        //   this.thePageNumber = data.page.number + 1;
+        //   this.thePageSize = data.page.size;
+        //   this.theTotalElements = data.page.totalElements;
+        // },
+
+        // complete() {
+        // () =>
+        // },
+      });
+
+    // this.productService.searchProducts(keyword).subscribe((data) => {
+    //   this.products = data;
+    //   this.currentCategoryName = `${keyword} に関連する商品が ${data.length} 件見つかりました`;
+    // });
   }
 
   handleListProducts(): void {
@@ -59,11 +101,47 @@ export class ProductListComponent implements OnInit {
       this.currentCategoryName = 'All Products';
     }
 
+    //
+    // Check if we have a different category than previous
+    // Note: Angular will reuse a component if it is currently being viewed
+    //
+
+    // if we have a different category id than previous
+    // then set thePageNumber back to 1
+    if (this.previousCategoryId != this.currentCategoryId) {
+      this.thePageNumber = 1;
+    }
+
+    this.previousCategoryId = this.currentCategoryId;
+
+    console.log(
+      `currentCategoryId=${this.currentCategoryId}, thePageNumber=${this.thePageNumber}`
+    );
+
     // now get the products for the given category id
     this.productService
-      .getProductList(this.currentCategoryId)
-      .subscribe((data) => {
-        this.products = data;
-      });
+      .getProductListPaginate(
+        this.thePageNumber - 1,
+        this.thePageSize,
+        this.currentCategoryId
+      )
+      .subscribe(this.processResult());
+  }
+
+  processResult() {
+    return (data: GetResponseProducts) => {
+      this.products = data._embedded.products;
+      this.thePageNumber = data.page.number + 1;
+      this.thePageSize = data.page.size;
+      this.theTotalElements = data.page.totalElements;
+    };
+  }
+
+  updatePageSize(event: any): void {
+    console.log(event);
+    const pageSize = +(<HTMLInputElement>event.target).value;
+    this.thePageSize = pageSize;
+    this.thePageNumber = 1;
+    this.getProducts();
   }
 }

@@ -1,31 +1,68 @@
 <div class="main-content">
-    <div class="section-content section-content-p30">
-        <h4>{{currentCategoryName}}</h4>
-        <hr>
-        <div class="container-fluid">
-            <div class="row">
-                <div *ngFor="let tempProduct of products" class="col-md-3">
+  <div class="section-content section-content-p30">
+    <h4>{{currentCategoryName}}</h4>
+    <hr>
+    <div class="container-fluid">
 
-                    <div class="product-box">
-
-                        <a routerLink="/products/{{tempProduct.id}}">
-                          <img src="{{ tempProduct.imageUrl }}" class="img-responsive">
-                        </a>
-                        <a routerLink="/products/{{tempProduct.id}}">
-                          <h1>{{ tempProduct.name }}</h1>
-                        </a>
-                        <div class="price">{{ tempProduct.unitPrice | currency: 'USD' }}</div>
-                        <a href="#" class="primary-btn">Add to cart</a>
-                    </div>
-
-                </div>
-            </div>
+      <div class="row">
+        <div *ngFor="let tempProduct of products" class="col-md-3">
+          <div class="product-box">
+              <a routerLink="/products/{{tempProduct.id}}">
+                <img src="{{ tempProduct.imageUrl }}" class="img-responsive">
+              </a>
+              <a routerLink="/products/{{tempProduct.id}}">
+                <h1>{{ tempProduct.name }}</h1>
+              </a>
+              <div class="price">{{ tempProduct.unitPrice | currency: 'USD' }}</div>
+              <a href="#" class="primary-btn">Add to cart</a>
+          </div>
         </div>
 
-        <div *ngIf="products?.length === 0" class="alert alert-warning col-md-12"
-            role="alert"
-        >
+        <div *ngIf="products?.length === 0" class="alert alert-warning col-md-12" role="alert">
           Sorry, no products found...
         </div>
+      </div>
+
+      <!-- begin footer -->
+      <div class="footer-pagination">
+        <div class="row">
+          <div class="col-md-6"></div>
+
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-9" style="padding-left: 25%">
+
+                <!--  maxSize is the limit of aligned pageNum at once -->
+                <ngb-pagination
+                  [(page)]="thePageNumber"
+                  [pageSize]="thePageSize"
+                  [collectionSize]="theTotalElements"
+                  [maxSize]="3"
+                  [boundaryLinks]="true"
+                  (pageChange)="getProducts()">
+
+                </ngb-pagination>
+
+              </div>
+
+              <div class="col-md-3 mt-2" style="text-align: right;">
+                <span class="mr-2">Page Size</span>
+
+                <select (change)="updatePageSize($event)">
+                  <option selected="true">8</option>
+                  <option>16</option>
+                  <option>24</option>
+                  <option>32</option>
+                </select>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- end footer -->
+
     </div>
+  </div>
 </div>
