@@ -3,6 +3,8 @@ import { ProductService } from 'src/app/services/product.service';
 import { Product } from 'src/app/common/product';
 import { ActivatedRoute } from '@angular/router';
 import { GetResponseProducts } from 'src/app/services/product.service';
+import { CartItem } from 'src/app/common/cart-item';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-product-list',
@@ -25,6 +27,7 @@ export class ProductListComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
+    private cartService: CartService,
     private route: ActivatedRoute
   ) {}
 
@@ -68,23 +71,7 @@ export class ProductListComponent implements OnInit {
         this.thePageSize = data.page.size;
         this.theTotalElements = data.page.totalElements;
         this.currentCategoryName = `${keyword} に関連する商品が ${data.page.totalElements} 件見つかりました`;
-        // next(data) {
-        //   // this.processResult();
-        //   this.products = data._embedded.products;
-        //   this.thePageNumber = data.page.number + 1;
-        //   this.thePageSize = data.page.size;
-        //   this.theTotalElements = data.page.totalElements;
-        // },
-
-        // complete() {
-        // () =>
-        // },
       });
-
-    // this.productService.searchProducts(keyword).subscribe((data) => {
-    //   this.products = data;
-    //   this.currentCategoryName = `${keyword} に関連する商品が ${data.length} 件見つかりました`;
-    // });
   }
 
   handleListProducts(): void {
@@ -143,5 +130,14 @@ export class ProductListComponent implements OnInit {
     this.thePageSize = pageSize;
     this.thePageNumber = 1;
     this.getProducts();
+  }
+
+  addToCart(theProduct: Product): void {
+    console.log(`Adding to cart: ${theProduct.name}, ${theProduct.unitPrice}`);
+
+    // TODO ... do the real work
+    const theCartItem = new CartItem(theProduct);
+
+    this.cartService.addToCart(theCartItem);
   }
 }
