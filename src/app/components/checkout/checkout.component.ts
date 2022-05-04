@@ -32,10 +32,13 @@ export class CheckoutComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private shopFormService: ShopFormService
+    private shopFormService: ShopFormService,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
+    this.reviewCartDetails();
+
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
         firstName: new FormControl('', [
@@ -270,6 +273,18 @@ export class CheckoutComponent implements OnInit {
 
       // select first item by default
       formGroup?.get('state')?.setValue(data[0]);
+    });
+  }
+
+  reviewCartDetails(): void {
+    // subscribe price and quantity
+    // note: CheckoutComponent is instantiated later in the app, so we need to get a replay of the message missed
+    this.cartService.totalPrice.subscribe((totalPrice) => {
+      this.totalPrice = totalPrice;
+    });
+
+    this.cartService.totalQuantity.subscribe((totalQuantity) => {
+      this.totalQuantity = totalQuantity;
     });
   }
 }
