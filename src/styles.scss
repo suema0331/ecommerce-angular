@@ -5,6 +5,18 @@
  * ----------------------------
  */
 
+// $theme-color-blue: #addae7;
+// $theme-color-pink: #ede4e1;
+// $theme-color-black: #555;
+// $theme-color-dark-blue: #205b8d;
+// $theme-color-btn-blue: #4682b4;
+// $theme-color-hover-blue: #205b8d;
+// $theme-color-white: #f5f5f5;
+// $theme-color-brown: #494949;
+
+
+@use 'variables' as v;
+
 * {
 	margin: 0;
 	padding: 0;
@@ -18,9 +30,10 @@ body {
 	font-weight: 400;
 	font-size: 16px;
 	line-height: 1.625;
-	color: #666;
+	color: v.$theme-color-black;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
 }
 
 ul {
@@ -49,6 +62,15 @@ button {
 	background: 0 0;
 }
 
+.btn-primary{
+  background: v.$theme-color-btn-blue;
+  border: v.$theme-color-btn-blue;
+    &:hover, &:focus {
+      background:v.$theme-color-hover-blue;
+      border: v.$theme-color-hover-blue;
+    }
+}
+
 img {
 	max-width: 100%;
 	height: auto;
@@ -64,7 +86,7 @@ h3,
 h4,
 h5,
 h6 {
-	color: #333;
+	color: v.$theme-color-black;
 	font-weight: 700;
 	margin: 0;
 	line-height: 1.2;
@@ -96,6 +118,7 @@ h6 {
 
 a {
 	display: inline-block;
+  color: v.$theme-color-btn-blue;
 
 	&:active,
 	&:focus {
@@ -126,12 +149,14 @@ a {
 
 .page-wrapper {
 	overflow: hidden;
-	background: #e5e5e5;
+	background: v.$theme-color-pink;
 	padding-bottom: 8vh;
+  // height: 100%;
+  min-height: 100vh;
 }
 
 .page-container {
-	background: #e5e5e5;
+	background: v.$theme-color-pink;
 	padding-left: 200px;
 }
 
@@ -147,6 +172,31 @@ aside.menu-sidebar.d-none.d-lg-block.clr {
 	box-shadow: -2px 0 4px #0000003b;
 }
 
+.page-link {
+  color: v.$theme-color-btn-blue;
+}
+
+.page-item.active {
+  .page-link{
+    z-index: 3;
+    color: v.$theme-color-white;
+    background-color: v.$theme-color-btn-blue;
+    border-color: v.$theme-color-btn-blue;
+  }
+}
+
+#okta-sign-in {
+  .auth-header, .okta-sign-in-header {
+    padding: 0 !important;
+  }
+  .auth-org-logo {
+    max-width: 300px;
+    height: auto;
+    min-height: 200px;
+  }
+}
+
+
 /*
  * ----------------------------
  * Header Desktop Section
@@ -154,7 +204,7 @@ aside.menu-sidebar.d-none.d-lg-block.clr {
  */
 
 .header-desktop {
-	background: #0da8e4;
+	background: v.$theme-color-blue;
 	-webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
 	-moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
 	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
@@ -244,9 +294,9 @@ input.au-input.au-input-xl {
 
 .au-input {
 	line-height: 43px;
-	border: 1px solid #e5e5e5;
+	border: 1px solid v.$theme-color-pink;
 	font-size: 14px;
-	color: #666;
+	color: v.$theme-color-black;
 	padding: 0 17px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -266,24 +316,24 @@ input.au-input.au-input-xl {
 		font-size: 22px;
 		float: left;
 		margin-top: 16px;
-		color: #fff;
+		color: v.$theme-color-white;
 		margin-left: 15px;
 	}
 }
 
 .total {
-	background: #205b8d;
+	background: v.$theme-color-btn-blue;
 	line-height: 43px;
-	color: #fff;
+	color: v.$theme-color-white;
 	border-radius: 30px;
-	border: 1px solid #0da8e4;
+	border: 1px solid v.$theme-color-blue;
 	float: left;
 	margin-top: 7px;
 	padding-left: 17px;
 
 	span {
 		display: inline-block;
-		background: #fff;
+		background: v.$theme-color-white;
 		padding: 0 13px;
 		color: #000;
 		border-top-right-radius: 20px;
@@ -304,20 +354,21 @@ input.au-input.au-input-xl {
 	position: relative;
 	right: 0;
 	min-width: 95px;
-	color: #fff;
-	border: 1px solid #205b8d;
+	color: v.$theme-color-white;
+	border: 1px solid v.$theme-color-btn-blue;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 43px;
-	background: #205b8d;
+	background: v.$theme-color-btn-blue;
 
 	&:hover {
-		background: #05143f;
+		// background: #05143f;
+    background: v.$theme-color-hover-blue;
 	}
 
 	>i {
 		font-size: 20px;
-		color: #fff;
+		color: v.$theme-color-white;
 		position: absolute;
 		top: 50%;
 		left: 50%;
@@ -341,11 +392,11 @@ input.au-input.au-input-xl {
 	left: 0;
 	top: 0;
 	bottom: 0;
-	background: #fff;
+	background: v.$theme-color-white;
 	overflow-y: auto;
 
 	.logo {
-		background: #fff;
+		background: v.$theme-color-blue;
 		height: 75px;
 		padding: 0 35px;
 		display: -webkit-box;
@@ -361,7 +412,7 @@ input.au-input.au-input-xl {
 		-webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
 		-moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
 		box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
-		border-right: 1px solid #e5e5e5;
+		border-right: 1px solid v.$theme-color-pink;
 		position: relative;
 		z-index: 3;
 	}
@@ -389,16 +440,18 @@ input.au-input.au-input-xl {
 
 	.navbar-list li a {
 		display: block;
-		color: #555;
+		color: v.$theme-color-black;
 		font-size: 16px;
 		padding: 5px 0;
+    text-decoration: none;
 
 		i {
 			margin-right: 19px;
 		}
 
 		&:hover {
-			color: #0da8e4;
+			color: v.$theme-color-btn-blue;
+      font-weight: bold;
 		}
 	}
 }
@@ -417,7 +470,7 @@ input.au-input.au-input-xl {
 
 	.header-mobile-bar {
 		padding: 15px 0;
-		background: #fff;
+		background: v.$theme-color-white;
 	}
 
 	.header-mobile-inner {
@@ -444,7 +497,7 @@ input.au-input.au-input-xl {
 		padding: 0;
 		line-height: 1;
 		vertical-align: top;
-		background: #fff;
+		background: v.$theme-color-white;
 		display: -webkit-box;
 		display: -webkit-flex;
 		display: -moz-box;
@@ -502,7 +555,7 @@ input.au-input.au-input-xl {
 			}
 
 			li a {
-				color: #555;
+				color: v.$theme-color-black;
 				display: block;
 				padding: 10px 15px;
 				padding-right: 25px;
@@ -512,7 +565,7 @@ input.au-input.au-input-xl {
 				line-height: inherit;
 
 				&:hover {
-					color: #0da8e4;
+					color: v.$theme-color-blue;
 				}
 
 				>i {
@@ -526,7 +579,7 @@ input.au-input.au-input-xl {
 .navbar-mobile-sub-list {
 	display: none;
 	padding-left: 30px;
-	background: #fff;
+	background: v.$theme-color-white;
 }
 
 .header-mobile .navbar-mobile .navbar-mobile-sub-list li a {
@@ -546,11 +599,11 @@ input.au-input.au-input-xl {
 			background: 0 0;
 
 			.hamburger-box .hamburger-inner {
-				background: #fff;
+				background: v.$theme-color-white;
 
 				&::before,
 				&::after {
-					background: #fff;
+					background: v.$theme-color-white;
 				}
 			}
 		}
@@ -567,10 +620,6 @@ input.au-input.au-input-xl {
  * ----------------------------
  */
 
-.product-box img {
-	width: 150px;
-}
-
 .items select {
 	width: 100px;
 	height: 40px;
@@ -581,25 +630,46 @@ input.au-input.au-input-xl {
 	margin-left: 5px;
 }
 
-.product-box {
-	margin-bottom: 60px;
-}
-
-.price {
-	margin: 15px 0 0;
-	font-weight: 800;
-	color: #0da8e4;
-}
 
 .product-box {
-	h1 {
-		font-size: 18px;
-		border-bottom: 1px solid #ccc;
-		padding-bottom: 5px;
-		font-weight: 600;
-		padding-top: 12px;
-		margin-bottom: 7px;
-	}
+  position: relative;
+  margin-bottom: 60px;
+
+  img {
+    width: 150px;
+    margin-bottom: 10px;
+  }
+
+  .name-area{
+    position: relative;
+    height: 60px;
+    width: 220px;
+    display: inline-block;
+    border-bottom: 1px solid #ccc;
+
+        h1 {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        display: inline-block;
+        font-size: 18px;
+        // border-bottom: 1px solid #ccc;
+        padding-bottom: 5px;
+        font-weight: 600;
+        padding-top: 12px;
+        margin-bottom: 7px;
+
+        &:hover {
+          color: v.$theme-color-btn-blue;
+        }
+      }
+  }
+
+  .price {
+    font-weight: 800;
+    color: v.$theme-color-black;
+    margin-bottom: 5px;
+  }
 
 	h2 {
 		font-size: 15px;
@@ -607,6 +677,10 @@ input.au-input.au-input-xl {
 		font-weight: 500;
 		color: #585858;
 	}
+
+  a{
+    text-decoration: none;
+  }
 }
 
 /*
@@ -616,7 +690,7 @@ input.au-input.au-input-xl {
  */
 
 .form-area {
-	background: #e5e5e5;
+	background: v.$theme-color-pink;
 	position: relative;
 	margin-bottom: 45px;
 	padding: 50px 20px;
@@ -626,7 +700,7 @@ input.au-input.au-input-xl {
 		position: absolute;
 		top: -26px;
 		left: 13px;
-		background: #e5e5e5;
+		background: v.$theme-color-pink;
 		padding: 10px 20px;
 		font-weight: 500;
 		z-index: 23;
@@ -685,8 +759,8 @@ input.au-input.au-input-xl {
 	left: 0;
 	height: 22px;
 	width: 22px;
-	background-color: #fff !important;
-	border: 2px solid #e5e5e5;
+	background-color: v.$theme-color-white !important;
+	border: 2px solid v.$theme-color-pink;
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
 	border-radius: 2px;
@@ -698,7 +772,7 @@ input.au-input.au-input-xl {
 	}
 
 	input:checked~.au-checkmark {
-		background-color: #fff;
+		background-color: v.$theme-color-white;
 	}
 }
 
@@ -721,7 +795,7 @@ label.date {
 	top: -1px;
 	width: 9px;
 	height: 15px;
-	border: solid #0da8e4;
+	border: solid v.$theme-color-blue;
 	border-width: 0 4px 4px 0;
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
@@ -749,11 +823,27 @@ select {
 
 .table {
 	margin: 0;
+  color: v.$theme-color-black;
+
+  .btn-primary {
+    background: v.$theme-color-btn-blue;
+    border: v.$theme-color-btn-blue;
+
+    &:hover,
+    &:focus {
+      background: v.$theme-color-hover-blue;
+      border: v.$theme-color-hover-blue;
+    }
+  }
+
+  & > :not(:first-child){
+    border: 2px solid #dee2e6;
+  }
 }
 
 table.table.table-bordered {
 	border: 1px solid #ccc;
-	background: #fff;
+	background: v.$theme-color-white;
 }
 
 .table-bordered {
@@ -765,8 +855,8 @@ table.table.table-bordered {
 }
 
 table.table.table-bordered th {
-	BACKGROUND: #0da8e4;
-	color: #fff;
+	background: v.$theme-color-btn-blue;
+	color: v.$theme-color-white;
 	font-size: 14px;
 	padding: 7px;
 }
@@ -791,18 +881,17 @@ table.table.table-bordered th {
  * ----------------------------
  */
 
-.price {
-	margin: 15px 0 0;
-	font-weight: 800;
-	color: #0da8e4;
-}
 
 .detail-section {
 	margin-top: 60px;
-}
-
-.detail-img{
-  width: 30%;
+  .price {
+    margin: 15px 0;
+    font-weight: 800;
+    color: v.$theme-color-black;
+  }
+  .detail-img {
+    width: 30%;
+  }
 }
 
 /**/
@@ -814,9 +903,9 @@ table.table.table-bordered th {
  */
 
 .btn-info {
-	color: #fff;
-	background-color: #0da8e4 !important;
-	border-color: #0da8e4 !important;
+	color: v.$theme-color-white;
+	background-color: v.$theme-color-blue !important;
+	border-color: v.$theme-color-blue !important;
 }
 
 a.primary-btn {
@@ -824,19 +913,20 @@ a.primary-btn {
 	padding: 7px 20px;
 	text-align: center;
 	display: inline-block;
-	color: #fff;
+	color: v.$theme-color-white;
 	border-radius: 2px;
 	font-size: 14px;
 	margin-top: 5px;
 
 	&:hover {
-		background: #0da8e4;
-		color: #fff;
+		background: v.$theme-color-blue;
+		color: v.$theme-color-white;
 	}
 }
 
 .active-link {
 	font-weight: bold;
+  color: v.$theme-color-btn-blue;
 }
 
 /*
@@ -847,7 +937,7 @@ a.primary-btn {
 
 footer {
 	ul li a {
-		color: #fff;
+		color: v.$theme-color-white;
 	}
 
 	background: #232324;
@@ -913,13 +1003,13 @@ footer {
 		font-size: 22px;
 		float: left;
 		margin-top: 16px;
-		color: #205b8d;
+		color: v.$theme-color-btn-blue;
 		margin-left: 15px;
 	}
 
 	.header-mobile .header-mobile-bar {
 		padding: 10px 0;
-		background: #fff;
+		background: v.$theme-color-white;
 	}
 
 	.header-wrap .account-item>.content {
@@ -938,7 +1028,7 @@ footer {
 	}
 
 	.page-wrapper {
-		background: #e5e5e5;
+		background: v.$theme-color-pink;
 		padding-bottom: 12vh;
 	}
 
@@ -1024,7 +1114,7 @@ footer {
 		font-size: 22px;
 		float: left;
 		margin-top: 16px;
-		color: #205b8d;
+		color: v.$theme-color-btn-blue;
 		margin-left: 15px;
 	}
 
@@ -1083,7 +1173,7 @@ footer {
 		font-size: 22px;
 		float: left;
 		margin-top: 16px;
-		color: #205b8d;
+		color: v.$theme-color-btn-blue;
 		margin-left: 15px;
 	}
 
@@ -1105,12 +1195,12 @@ footer {
 		position: relative;
 		right: 10px;
 		min-width: 85px;
-		color: #fff;
-		border: 1px solid #205b8d;
+		color: v.$theme-color-white;
+		border: 1px solid v.$theme-color-btn-blue;
 		-webkit-border-radius: 3px;
 		-moz-border-radius: 3px;
 		border-radius: 0;
-		background: #205b8d;
+		background: v.$theme-color-btn-blue;
 	}
 
 	input.au-input.au-input-xl {
@@ -1139,7 +1229,7 @@ footer {
 	.total {
 		span {
 			display: inline-block;
-			background: #fff;
+			background: v.$theme-color-white;
 			padding: 0 10px;
 			color: #000;
 			border-top-right-radius: 20px;
@@ -1147,11 +1237,11 @@ footer {
 			margin-left: 6px;
 		}
 
-		background: #205b8d;
+		background: v.$theme-color-btn-blue;
 		line-height: 30px;
-		color: #fff;
+		color: v.$theme-color-white;
 		border-radius: 30px;
-		border: 1px solid #205b8d;
+		border: 1px solid v.$theme-color-btn-blue;
 		float: left;
 		margin-top: 9px;
 		padding-left: 12px;
@@ -1159,7 +1249,7 @@ footer {
 
 	.header-mobile .header-mobile-bar {
 		padding: 6px 0;
-		background: #fff;
+		background: v.$theme-color-white;
 		border: 0;
 		padding: 8px 0;
 	}
