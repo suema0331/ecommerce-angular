@@ -10,9 +10,9 @@
               <a routerLink="/products/{{tempProduct.id}}">
                 <img src="{{ tempProduct.imageUrl }}" class="img-responsive">
               </a>
-              <a routerLink="/products/{{tempProduct.id}}">
-                <h1>{{ tempProduct.name }}</h1>
-              </a>
+              <div class="name-area" routerLink="/products/{{tempProduct.id}}">
+                <h1 class="name">{{ tempProduct.name }}</h1>
+              </div>
               <div class="price">{{ tempProduct.unitPrice | currency: 'USD' }}</div>
               <button (click)="addToCart(tempProduct)" class="btn btn-primary btn-sm">Add to cart</button>
           </div>
@@ -30,7 +30,7 @@
 
           <div class="col-md-6">
             <div class="row">
-              <div class="col-md-9" style="padding-left: 25%">
+              <div class="col-md-8" style="padding-left: 10%">
 
                 <!--  maxSize is the limit of aligned pageNum at once -->
                 <ngb-pagination
@@ -45,10 +45,10 @@
 
               </div>
 
-              <div class="col-md-3 mt-2" style="text-align: right;">
-                <span class="mr-2">Page Size</span>
+              <div class="col-md-4 mt-2" style="text-align: right;">
+                <span>Page Size　</span>
 
-                <select (change)="updatePageSize($event)">
+                <select (change)="updatePageSize($event)" class="ma-2">
                   <option selected="true">8</option>
                   <option>16</option>
                   <option>24</option>

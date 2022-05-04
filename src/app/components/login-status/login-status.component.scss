@@ -1,0 +1,39 @@
+// @import url("_variables.scss");
+@use '../../../variables' as v;
+
+.security-btn {
+  position: relative;
+  right: 0;
+  min-width: 95px;
+  color: #fff;
+  border: 10px solid v.$theme-color-btn-blue;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 43px;
+  background: v.$theme-color-btn-blue;
+    &:hover {
+      background: v.$theme-color-hover-blue;
+      border: 10px solid v.$theme-color-hover-blue;
+    }
+}
+
+.login-status-header {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex
+}
+
+.login-status-user-info {
+  line-height: 43px;
+  border: 1px;
+  padding: 0 17px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-transition: all .5s ease;
+  -o-transition: all .5s ease;
+  -moz-transition: all .5s ease;
+  transition: all .5s ease
+}

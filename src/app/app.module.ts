@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, Router } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -15,8 +15,41 @@ import { CartDetailsComponent } from './components/cart-details/cart-details.com
 import { CheckoutComponent } from './components/checkout/checkout.component';
 
 import { ProductService } from './services/product.service';
+import { LoginComponent } from './components/login/login.component';
+import { LoginStatusComponent } from './components/login-status/login-status.component';
+import { OktaAuth } from '@okta/okta-auth-js';
+
+import {
+  OKTA_CONFIG,
+  OktaAuthModule,
+  OktaCallbackComponent,
+} from '@okta/okta-angular';
+
+import myAppConfig from './config/my-app-config';
+
+// create this object when user require authentication
+const oktaConfig = Object.assign(
+  {
+    onAuthRequired: (injector: any) => {
+      const router = injector.get(Router);
+
+      // Redirect the user to your custom login page
+      router.navigate(['/login']);
+    },
+  },
+  // setting of OpenID connect
+  myAppConfig.oidc
+);
+
+const oktaAuth = new OktaAuth(oktaConfig);
 
 const routes: Routes = [
+  // once the user is authenticated, they are redirected to my app.
+  // normally we would need parse and response and store the OAuth+OIDC tokens
+  // however OktaCallbackComponent does this
+
+  { path: 'login/callback', component: OktaCallbackComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'checkout', component: CheckoutComponent },
   { path: 'cart-details', component: CartDetailsComponent },
   { path: 'products/:id', component: ProductDetailsComponent },
@@ -38,6 +71,8 @@ const routes: Routes = [
     CartStatusComponent,
     CartDetailsComponent,
     CheckoutComponent,
+    LoginComponent,
+    LoginStatusComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -45,8 +80,10 @@ const routes: Routes = [
     HttpClientModule,
     NgbModule,
     ReactiveFormsModule,
+    OktaAuthModule,
   ],
-  providers: [ProductService],
+  // providers: [ProductService, { provide: OKTA_CONFIG, useValue: oktaConfig }],
+  providers: [ProductService, { provide: OKTA_CONFIG, useValue: { oktaAuth } }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
