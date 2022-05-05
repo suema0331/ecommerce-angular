@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { Routes, RouterModule, Router } from '@angular/router';
@@ -23,14 +23,16 @@ import {
   OKTA_CONFIG,
   OktaAuthModule,
   OktaCallbackComponent,
+  OktaAuthGuard,
 } from '@okta/okta-angular';
 
 import myAppConfig from './config/my-app-config';
+import { MembersPageComponent } from './components/members-page/members-page.component';
 
 // create this object when user require authentication
 const oktaConfig = Object.assign(
   {
-    onAuthRequired: (injector: any) => {
+    onAuthRequired: (injector: Injector) => {
       const router = injector.get(Router);
 
       // Redirect the user to your custom login page
@@ -43,6 +45,14 @@ const oktaConfig = Object.assign(
 
 const oktaAuth = new OktaAuth(oktaConfig);
 
+function onAuthRequired(oktaAuth: OktaAuth, injector: Injector) {
+  // Use injector to access any service available within your application
+  const router = injector.get(Router);
+
+  // Redirect the user to your custom login page
+  router.navigate(['/login']);
+}
+
 const routes: Routes = [
   // once the user is authenticated, they are redirected to my app.
   // normally we would need parse and response and store the OAuth+OIDC tokens
@@ -50,6 +60,11 @@ const routes: Routes = [
 
   { path: 'login/callback', component: OktaCallbackComponent },
   { path: 'login', component: LoginComponent },
+  {
+    path: 'members',
+    component: MembersPageComponent,
+    canActivate: [OktaAuthGuard],
+  },
   { path: 'checkout', component: CheckoutComponent },
   { path: 'cart-details', component: CartDetailsComponent },
   { path: 'products/:id', component: ProductDetailsComponent },
@@ -73,6 +88,7 @@ const routes: Routes = [
     CheckoutComponent,
     LoginComponent,
     LoginStatusComponent,
+    MembersPageComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -83,7 +99,10 @@ const routes: Routes = [
     OktaAuthModule,
   ],
   // providers: [ProductService, { provide: OKTA_CONFIG, useValue: oktaConfig }],
-  providers: [ProductService, { provide: OKTA_CONFIG, useValue: { oktaAuth } }],
+  providers: [
+    ProductService,
+    { provide: OKTA_CONFIG, useValue: { oktaAuth, onAuthRequired } },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
